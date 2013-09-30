@@ -24,11 +24,9 @@ def titleize(string)
 
   if string.include?(' ')
     words = string.split(' ')
-    words.each_index { |i|
-              unless littlewords.include?(words[i])
-                words[i][0] = words[i][0].upcase
-              end
-            }
+    words.each_index do |i|
+      words[i][0] = words[i][0].upcase unless littlewords.include?(words[i])
+    end
     string = words.join(' ')
   end
   string

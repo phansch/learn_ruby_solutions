@@ -20,7 +20,7 @@ def multiply(a, b, *c)
 end
 
 def power(a, b)
-  a ** b
+  a**b
 end
 
 def factorial(n)
@@ -31,5 +31,5 @@ def factorial(n)
     fac = fac * n
     n -= 1
   end
-  return fac
+  fac
 end
