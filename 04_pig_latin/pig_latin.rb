@@ -1,44 +1,55 @@
 def consonants
-  consonants = ('a'..'z').to_a - %W(a e i o u)
-
-  # Add phonemes to consonants array
+  consonants = ('a'..'z').to_a + ('A'..'Z').to_a - vowels
+  # Add extra phonemes to consonants array
   consonants << 'qu'
+  consonants << 'sch'
 
-  # make sure to count 'qu' as a consonant even if it's preceeded by a consonant
+  # Make sure to count 'qu' as a consonant even if it's preceeded by a consonant
   temp = Array.new(consonants.size)
   temp.each_index { |i| temp[i] = consonants[i] + "qu" }
 
   consonants = consonants + temp
 end
 
+def vowels
+  %W(a e i o u A E I O U)
+end
+
 def translate(string)
   if string.include?(' ')
     words = string.split(' ')
-
-    words.each_with_index do |word, i|
-      words[i] = translate_word(word)
-    end
-
-    words.join(' ')
+    words.each_index { |i| words[i] = translate_word(words[i]) }.join(' ')
   else
     translate_word(string)
   end
 end
 
 def translate_word(word)
+  # Remember capitalized words for later and downcase everything
+  capitalize = true if is_capitalized?(word)
+  word.downcase!
+
+  # Actual translation
   if begins_with_vowel?(word)
     word << "ay"
   elsif begins_with_three_consonants?(word)
-    word[3..-1] << word[0..2] << "ay"
+    word = word[3..-1] << word[0..2] << "ay"
   elsif begins_with_two_consonants?(word)
-    word[2..-1] << word[0..1] << "ay"
+    word = word[2..-1] << word[0..1] << "ay"
   elsif begins_with_consonant?(word)
-    word[1..-1] << word[0] << "ay"
+    word = word[1..-1] << word[0] << "ay"
   end
+
+  word[0] = word[0].upcase! if capitalize
+  word
+end
+
+def is_capitalized?(word)
+  ('A'..'Z').to_a.include?(word[0])
 end
 
 def begins_with_vowel?(word)
-  %W(a e i o u).include?(word[0])
+  vowels.include?(word[0])
 end
 
 def begins_with_consonant?(word)
