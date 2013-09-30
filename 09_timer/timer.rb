@@ -6,24 +6,13 @@ class Timer
   end
 
   def time_string
-    seconds, minutes, hours = 0, 0, 0
+    minutes, seconds = @seconds.divmod(60)
+    hours, minutes = minutes.divmod(60)
 
-    if @seconds > 3600
-      hours = @seconds / 3600
-      minutes = @seconds / 600
-    end
-    if @seconds > 600 && @seconds < 3600
-      minutes = @seconds / 600
-    end
-    if @seconds > 60 && @seconds < 600
-      minutes = @seconds / 60
-    end
+    s = sprintf("%#02d", seconds)
+    m = sprintf("%#02d", minutes)
+    h = sprintf("%#02d", hours)
 
-    seconds = @seconds % 60
-
-    sec = sprintf("%#02d", seconds)
-    min = sprintf("%#02d", minutes)
-    hour = sprintf("%#02d", hours)
-    "#{hour}:#{min}:#{sec}"
+    "#{h}:#{m}:#{s}"
   end
 end
