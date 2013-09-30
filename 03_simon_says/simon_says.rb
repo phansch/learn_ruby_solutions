@@ -7,7 +7,7 @@ def shout(string)
 end
 
 def repeat(string, repeats = 2)
-  ((string + " ") * repeats).strip
+  ("#{string} " * repeats).strip
 end
 
 def start_of_word(word, count)
@@ -19,7 +19,7 @@ def first_word(string)
 end
 
 def titleize(string)
-  littlewords = [ "and", "over", "the" ]
+  littlewords = %w(and over the)
   string[0] = string[0].upcase
 
   if string.include?(' ')
@@ -29,5 +29,6 @@ def titleize(string)
     end
     string = words.join(' ')
   end
+
   string
 end
