@@ -9,31 +9,30 @@ class RPNCalculator
     @stack.push(number)
   end
 
-  # Add the last two numbers on the stack
   def plus
-    raise "calculator is empty" if @stack.empty?
-    @value = @stack.pop + @stack.pop
-    @stack.push(@value)
+    calc("+")
   end
 
   def minus
-    raise "calculator is empty" if @stack.empty?
-    minuends = @stack.pop(2)
-    @value = minuends[0] - minuends[1]
-    @stack.push(@value)
+    calc("-")
   end
 
   def divide
-    raise "calculator is empty" if @stack.empty?
-    dividends = @stack.pop(2)
-    @value = dividends[0].to_f / dividends[1].to_f
-    @stack.push(@value)
+    calc("/")
   end
 
   def times
+    calc("*")
+  end
+
+  def calc(op)
     raise "calculator is empty" if @stack.empty?
-    factors = @stack.pop(2)
-    @value = factors[0].to_f * factors[1].to_f
-    @stack.push(@value)
+    nums = @stack.pop(2)
+
+    index_a, index_b = 0, 1
+    index_a, index_b = index_b, index_a if op == "+"
+
+    @value = nums[index_a].to_f.send(op, nums[index_b].to_f) # Object.send
+    push(@value)
   end
 end
