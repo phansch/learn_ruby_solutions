@@ -35,14 +35,25 @@ class RPNCalculator
     push(@value)
   end
 
+  # Toknizes a string
   def tokens(string)
     tokens = string.split(' ')
     tokens.each_index do |i|
-      if %W(+ - * /).include?(tokens[i])
-        tokens[i] = tokens[i].to_sym
-      end
+      tokens[i] = tokens[i].to_sym if %W(+ - * /).include?(tokens[i])
       tokens[i] = Integer(tokens[i]) unless %i(+ - * /).include?(tokens[i])
-
     end
+  end
+
+  # postfix calculator
+  def evaluate(postfix)
+    tokens = tokens(postfix)
+    tokens.each do |token|
+      if token.is_a?(Fixnum)
+        push(token)
+      elsif %i(+ - * /).include?(token)
+        calc(token.id2name)
+      end
+    end
+    @value
   end
 end
