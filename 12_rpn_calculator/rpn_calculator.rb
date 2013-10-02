@@ -27,12 +27,11 @@ class RPNCalculator
 
   def calc(op)
     raise "calculator is empty" if @stack.empty?
-    nums = @stack.pop(2)
 
-    index_a, index_b = 0, 1
-    index_a, index_b = index_b, index_a if op == "+"
+    num_a, num_b = @stack.pop(2)
+    num_a, num_b = num_b, num_a if op == "+"
 
-    @value = nums[index_a].to_f.send(op, nums[index_b].to_f) # Object.send
+    @value = num_a.to_f.send(op, num_b.to_f) # Object.send
     push(@value)
   end
 
