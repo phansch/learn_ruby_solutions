@@ -25,17 +25,7 @@ class RPNCalculator
     calc("*")
   end
 
-  def calc(op)
-    raise "calculator is empty" if @stack.empty?
-
-    num_a, num_b = @stack.pop(2)
-    num_a, num_b = num_b, num_a if op == "+"
-
-    @value = num_a.to_f.send(op, num_b.to_f) # Object.send
-    push(@value)
-  end
-
-  # Toknizes a string
+  # Tokenizes a string
   def tokens(string)
     tokens = string.split(' ')
     tokens.each_index do |i|
@@ -44,7 +34,7 @@ class RPNCalculator
     end
   end
 
-  # postfix calculator
+  # Evaluates a string in postfix notation and returns the result
   def evaluate(postfix)
     tokens = tokens(postfix)
     tokens.each do |token|
@@ -55,5 +45,16 @@ class RPNCalculator
       end
     end
     @value
+  end
+
+  private
+
+  # Calculation method. Uses Object.send to do math operations
+  def calc(op)
+    raise "calculator is empty" if @stack.empty?
+
+    num_a, num_b = @stack.pop(2)
+    @value = num_a.to_f.send(op, num_b.to_f) # Object.send
+    push(@value)
   end
 end
