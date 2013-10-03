@@ -1,20 +1,31 @@
 class XmlDocument
   def initialize(indent = false)
     @indent = indent
+    @indent_level = 0
   end
 
   def method_missing(method_name, *args, &block)
-    indent_level = 0
     @xmldoc = ""
+    indent_xml
+
+    # add opening tag and attributes
     @xmldoc += "<#{method_name}"
     add_attributes(args)
+
     if block_given? # tag has content
       @xmldoc += ">"
+      linebreak_xml
+
+      @indent_level += 1
       @xmldoc += yield
+      @indent_level -= 1
+      indent_xml
       @xmldoc += "</#{method_name}>"
     else
       @xmldoc += "/>"
     end
+    linebreak_xml
+    @xmldoc
   end
 
   private
@@ -28,5 +39,13 @@ class XmlDocument
         end
       end
     end
+  end
+
+  def indent_xml
+    @xmldoc += "  " * @indent_level if @indent
+  end
+
+  def linebreak_xml
+    @xmldoc += "\n" if @indent
   end
 end
