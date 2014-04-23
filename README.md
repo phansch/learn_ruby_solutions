@@ -1,4 +1,4 @@
 learn_ruby_solutions
 ====================
 
-Teaching myself Test Driven Development and Ruby
+[This project moved to GitLab.](https://gitlab.com/phansch/learn_ruby_solutions)
